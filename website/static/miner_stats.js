@@ -67,7 +67,7 @@ function displayCharts() {
 		},
 		title: "Shares This Round",
 		gaugeWidthScale: 0.6,
-		levelColors:["#e8e84c", "#6cdb5e"],
+		levelColors: ["#e8e84c", "#6cdb5e"],
 		levelColorsGradient: true
 	});
 	var tmpInt = Math.min((((10000 * stats.shares / (stats.shares + stats.invalidShares)) / 100)), 100);
@@ -92,10 +92,10 @@ function displayCharts() {
 		},
 		title: "Invalid Shares",
 		gaugeWidthScale: 0.6,
-		levelColors:["#f9a42c", "#f21f10"],
+		levelColors: ["#f9a42c", "#f21f10"],
 		levelColorsGradient: true
 	});
-	workerGage= new JustGage({
+	workerGage = new JustGage({
 		id: "workerDominance",
 		value: stats.miners ? (Object.keys(stats.miners).length / stats.poolSize) * 100 : 0,
 		min: 0,
@@ -115,7 +115,7 @@ function displayCharts() {
 		},
 		title: "Worker Dominance",
 		gaugeWidthScale: 0.6,
-		levelColors:["#e8e84c", "#6cdb5e"],
+		levelColors: ["#e8e84c", "#6cdb5e"],
 		levelColorsGradient: true
 	});
 	var high = 0;
@@ -140,7 +140,7 @@ function displayCharts() {
 		},
 		title: "Hashrate Dominance",
 		gaugeWidthScale: 0.6,
-		levelColors:["#e8e84c", "#6cdb5e"],
+		levelColors: ["#e8e84c", "#6cdb5e"],
 		levelColorsGradient: true
 	});
 	var maxScale = 0;
@@ -200,7 +200,7 @@ function updateWorkerStats() {
 		var saneWorkerName = getWorkerNameFromAddress(w);
 		console.log(stats.miners[w]);
 		$("#statsHashrate" + htmlSafeWorkerName).text(getReadableHashrateString(stats.miners[w].hashrate[stats.miners[w].hashrate.length - 1] || 0));
-		$("#statsHashrateAvg" + htmlSafeWorkerName).text(getReadableHashrateString(calculateAverageHashrate(saneWorkerName)));	
+		$("#statsHashrateAvg" + htmlSafeWorkerName).text(getReadableHashrateString(calculateAverageHashrate(saneWorkerName)));
 		$("#statsTotalImmature").text(totalImmature);
 		$("#statsTotalBal").text(totalBal);
 		$("#statsTotalPaid").text(totalPaid);
@@ -231,7 +231,7 @@ function calculateAverageHashrate(worker) {
 			}
 		}
 		if (count > total)
-		total = count;
+			total = count;
 	}
 	avg = avg / total;
 	return avg;
@@ -247,10 +247,10 @@ function rebuildWorkerDisplay() {
 		addWorkerToDisplay(saneWorkerName, htmlSafeWorkerName, stats.miners[w]);
 	}
 }
-$.getJSON('/api/worker_stats?' + _miner, function(data) {
+$.getJSON('/api/worker_stats?' + _miner, function (data) {
 	if (document.hidden) return;
-	$.getJSON('/api/pool_stats', function(statData) {
-		addWorkerToTracker(statData, data, _miner, function() {
+	$.getJSON('/api/pool_stats', function (statData) {
+		addWorkerToTracker(statData, data, _miner, function () {
 			var stats = getWorkerStats(_miner);
 			statData = data;
 			for (var w in statData.workers) {
@@ -259,22 +259,22 @@ $.getJSON('/api/worker_stats?' + _miner, function(data) {
 			displayCharts();
 			rebuildWorkerDisplay();
 			updateStats();
-        		var totalPaid = statData.paid || 0;
-        		var totalBal = statData.balance || 0;
-        		var totalImmature = statData.immature || 0;
-        		var totalHashrate = statData.totalHash || 0;
-        		var totalShares = statData.totalShares || 0;
+			var totalPaid = statData.paid || 0;
+			var totalBal = statData.balance || 0;
+			var totalImmature = statData.immature || 0;
+			var totalHashrate = statData.totalHash || 0;
+			var totalShares = statData.totalShares || 0;
 			var SYMB = stats.symbol || "coins";
-			$('#total-paid-label').append(totalPaid.toFixed(8) + ' ' + SYMB);			
-			$('#total-immature-label').append(totalImmature.toFixed(8) + ' ' + SYMB);			
+			$('#total-paid-label').append(totalPaid.toFixed(8) + ' ' + SYMB);
+			$('#total-immature-label').append(totalImmature.toFixed(8) + ' ' + SYMB);
 			$('#total-balance-label').append(totalBal.toFixed(8) + ' ' + SYMB);
 			$('#total-hashrate-label').append(getReadableHashrateString(totalHashrate));
 			$('#total-shares-label').append((totalShares * 10).toFixed(2));
 		});
 	});
 });
-statsSource.addEventListener('message', function(e) {
+statsSource.addEventListener('message', function (e) {
 	var stats = JSON.parse(e.data);
-	$.getJSON('/api/worker_stats?' + _miner, function(data) {
+	$.getJSON('/api/worker_stats?' + _miner, function (data) {
 	});
 });

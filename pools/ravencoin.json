@@ -1,8 +1,8 @@
 {
     "enabled": false,
     "coin": "ravencoin.json",
-    "address": "your_wallet_address",
-    "donateaddress": "your_wallet_address",
+    "address": "RTYSgZ7viuGjrdYxZQD3L3adVbf5acLkWz",
+    "donateaddress": "RTYSgZ7viuGjrdYxZQD3L3adVbf5acLkWz",
     "rewardRecipients": {
         "your_wallet_address": 0.5
     },
